@@ -31,7 +31,28 @@ This repository provides:
 - Optional Docker environment for instant LibreTranslate usage
 
 ---
+---
 
+# 📂 Project Structure
+```
+project-root/
+│
+├── locale/
+│   ├── en.json
+│   ├── es.json  (auto-generated)
+│   ├── fr.json  (auto-generated)
+│   └── ...
+│
+├── scripts/
+│   ├── translate.js
+│   ├── detect-missing.js
+│   └── detect-outdated.js
+│
+├── docker-compose.yml
+├── package.json
+└── README.md
+```
+---
 ---
 
 # 🛠 Installation
