@@ -83,7 +83,7 @@ docker compose down
 
 LibreTranslate will run at:
 ```
-http://localhost:5000
+http://localhost:5000/translate
 ```
 
 ---
