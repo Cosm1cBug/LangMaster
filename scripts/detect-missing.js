@@ -1,19 +1,16 @@
 /**
  * scripts/detect-missing.js
- * - Compares keys in en.json with other languages and lists missing keys
- *
- * Usage:
- *   NODE_ENV=production SOURCE_LANG=en LANGUAGES=es,fr node scripts/detect-missing.js
  */
 const fs = require('fs-extra');
 const path = require('path');
+require('dotenv').config();
 
 const ROOT = path.join(__dirname, '..');
 const LOCALE_DIR = path.join(ROOT, 'locale');
 const SOURCE_LANG = process.env.SOURCE_LANG || 'en';
-const LANGUAGES = (process.env.LANGUAGES || 'es,fr,de,hi').split(',').map(s => s.trim()).filter(Boolean);
+const LANGUAGES = (process.env.LANGUAGES || '').split(',').map(s => s.trim()).filter(Boolean);
 
-function flatten(obj, prefix='') {
+function flatten(obj, prefix = '') {
   const out = {};
   for (const k of Object.keys(obj)) {
     const full = prefix ? `${prefix}.${k}` : k;
@@ -33,7 +30,6 @@ function flatten(obj, prefix='') {
   const src = flatten(fs.readJsonSync(srcPath));
 
   for (const lang of LANGUAGES) {
-    if (lang === SOURCE_LANG) continue;
     const file = path.join(LOCALE_DIR, `${lang}.json`);
     if (!fs.existsSync(file)) {
       console.log(`MISSING FILE: ${lang}.json`);
@@ -42,9 +38,9 @@ function flatten(obj, prefix='') {
     const trg = flatten(fs.readJsonSync(file));
     const missing = Object.keys(src).filter(k => !(k in trg));
     if (missing.length) {
-      console.log(`
-${lang}.json is missing ${missing.length} keys:`);
-      missing.forEach(m => console.log('  -', m));
+      console.log(`\n${lang}.json missing ${missing.length} keys:`);
+      missing.slice(0, 200).forEach(m => console.log('  -', m));
+      if (missing.length > 200) console.log(`  ...and ${missing.length - 200} more`);
     } else {
       console.log(`${lang}.json is complete`);
     }
