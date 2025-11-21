@@ -2,26 +2,6 @@ i18n (Internationalization) + LibreTranslate Automation
 
 A complete guide for setting up i18n, local JSON translations, and LibreTranslate on Windows, Linux, and Docker. Includes automatic translation scripts, outdated translation detection, and multilingual workflow.
 
----
-
-# 📌 Table of Contents
-1. [Overview](#overview)
-2. [Project Structure](#project-structure)
-3. [Installation](#installation)
-   - [Windows](#windows-installation)
-   - [Linux](#linux-installation)
-   - [Docker Setup](#docker-setup)
-4. [LibreTranslate Setup](#libretranslate-setup)
-5. [Configuring i18n](#configuring-i18n)
-6. [Translation Automation Scripts](#translation-automation-scripts)
-   - [Translate Missing Keys](#translate-missing-keys)
-   - [Detect Outdated Translations](#detect-outdated-translations)
-7. [Usage Workflow](#usage-workflow)
-8. [Optional Enhancements](#optional-enhancements)
-9. [package.json Example](#packagejson-example)
-
----
-
 # 📘 Overview
 This repository provides:
 - A base **en.json** file for English messages
