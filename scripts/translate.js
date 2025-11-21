@@ -77,6 +77,17 @@ async function translateObject(srcObj, existingObj, target) {
   return out;
 }
 
+async function batchTranslate(textArray, from, to) {
+  const response = await axios.post(`${LT_URL}/translate`, {
+    q: textArray,
+    source: from,
+    target: to,
+    format: "text"
+  });
+
+  return response.data;
+}
+
 async function main() {
   const srcPath = path.join(LOCALE_DIR, `${SOURCE_LANG}.json`);
   if (!fs.existsSync(srcPath)) {
