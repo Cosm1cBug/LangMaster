@@ -1,4 +1,4 @@
-version: '3.8'
+version: '2.9'
 services:
   libretranslate:
     image: libretranslate/libretranslate:latest
@@ -7,4 +7,15 @@ services:
       - "5000:5000"
     restart: unless-stopped
     environment:
+      # restrict loaded languages to reduce memory & startup work
       - LT_LOAD_ONLY=en,es,fr,de,hi
+      # make Argos use mounted path for models
+      - ARGOS_PACKAGE_DIR=/argos/packages
+    volumes:
+      # host folder './lt_models' should contain .argosmodel files or installed package dirs
+      - ./lt_models:/argos/packages:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/languages"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
