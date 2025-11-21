@@ -1,17 +1,14 @@
 /**
  * scripts/detect-outdated.js
- * - Quick check to detect structural differences between en.json and other locale files
- *
- * Usage:
- *   SOURCE_LANG=en LANGUAGES=es,fr node scripts/detect-outdated.js
  */
 const fs = require('fs-extra');
 const path = require('path');
+require('dotenv').config();
 
 const ROOT = path.join(__dirname, '..');
 const LOCALE_DIR = path.join(ROOT, 'locale');
 const SOURCE_LANG = process.env.SOURCE_LANG || 'en';
-const LANGUAGES = (process.env.LANGUAGES || 'es,fr,de,hi').split(',').map(s => s.trim()).filter(Boolean);
+const LANGUAGES = (process.env.LANGUAGES || '').split(',').map(s => s.trim()).filter(Boolean);
 
 function normalize(obj) {
   if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
@@ -29,17 +26,14 @@ function normalize(obj) {
   const src = normalize(fs.readJsonSync(srcPath));
 
   for (const lang of LANGUAGES) {
-    if (lang === SOURCE_LANG) continue;
     const file = path.join(LOCALE_DIR, `${lang}.json`);
     if (!fs.existsSync(file)) {
       console.log(`${lang}.json: MISSING`);
       continue;
     }
     const trg = normalize(fs.readJsonSync(file));
-    const srcStr = JSON.stringify(src);
-    const trgStr = JSON.stringify(trg);
-    if (srcStr !== trgStr) {
-      console.log(`${lang}.json: MAY BE OUTDATED (structure differs)`);
+    if (JSON.stringify(src) !== JSON.stringify(trg)) {
+      console.log(`${lang}.json: STRUCTURE DIFFERS or CONTENT DIFFERS -> may be outdated`);
     } else {
       console.log(`${lang}.json: OK`);
     }
