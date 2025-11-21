@@ -1,0 +1,16 @@
+{
+  "name": "langmaster",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "translate": "node scripts/translate.js",
+    "detect-missing": "node scripts/detect-missing.js",
+    "check-outdated": "node scripts/detect-outdated.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "fs-extra": "^11.2.0",
+    "dotenv": "^16.3.1"
+  }
+}
