@@ -1,0 +1,30 @@
+How to run (full flow)
+
+Ensure models are available in ./lt_models (or your container already baked).
+
+If using Docker with ./lt_models mount: copy .argosmodel files or installed model dirs there.
+
+Start LibreTranslate:
+
+docker compose up -d
+# wait until healthcheck passes
+docker compose ps
+
+Pre-warm (optional but recommended — runs a few small translates to load models):
+
+node -e "const axios = require('axios'); Promise.all(['es','fr','de','hi'].map(l=> axios.post(process.env.LT_URL||'http://localhost:5000/translate', {q:['warm-up','hello'], source:'en', target:l, format:'text'}))).then(()=>console.log('prewarm done')).catch(e=>console.warn('prewarm err',e.message));"
+
+
+Create or update locale/en.json.
+
+Run translation:
+
+npm run translate
+
+Detect missing keys:
+
+npm run detect-missing
+
+Check outdated:
+
+npm run check-outdated
